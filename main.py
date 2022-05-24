@@ -49,31 +49,22 @@ class MyServer(BaseHTTPRequestHandler):
         else:
             if(self.path[1:].endswith(".tpage")):
                 if(not os.path.isfile('./pages/'+self.path[1:])):
-                    
+                    openpage(self,config.not_found)
                     return
-                file = open('./pages/'+self.path[1:],mode='r',encoding="utf-8")
-                page = tpage.parse(file.read())
-                file.close()
-                self.wfile.write(bytes(f'<html><head><meta charset="utf-8"><title>{self.path[1:]}</title>', "utf-8"))
-                if(config.connect_css != False):
-                    self.wfile.write(bytes(f'<link rel="stylesheet" href="{config.connect_css}">', "utf-8"))
-                self.wfile.write(bytes('</head>', "utf-8"))
-                self.wfile.write(bytes("<body>", "utf-8"))
-                self.wfile.write(bytes(tpage.getHTMLcode(page), "utf-8"))
-                self.wfile.write(bytes("</body></html>", "utf-8"))
+                openpage(self,'./pages/'+self.path[1:])
             elif(self.path == "" or self.path == "/"):
-                file = open(config.main_page,mode='r',encoding="utf-8")
-                page = tpage.parse(file.read())
-                file.close()
-                self.wfile.write(bytes(f'<html><head><meta charset="utf-8"><title>{self.path[1:]}</title>', "utf-8"))
-                if(config.connect_css != False):
-                    self.wfile.write(bytes(f'<link rel="stylesheet" href="{config.connect_css}">', "utf-8"))
-                self.wfile.write(bytes('</head>', "utf-8"))
-                self.wfile.write(bytes("<body>", "utf-8"))
-                self.wfile.write(bytes(tpage.getHTMLcode(page), "utf-8"))
-                self.wfile.write(bytes("</body></html>", "utf-8"))
-
-            
+                openpage(self,config.main_page)
+def openpage(serv,name):
+    file = open(name,mode='r',encoding="utf-8")
+    page = tpage.parse(file.read())
+    file.close()
+    serv.wfile.write(bytes(f'<html><head><meta charset="utf-8"><title>{serv.path[1:]}</title>', "utf-8"))
+    if(config.connect_css != False):
+        serv.wfile.write(bytes(f'<link rel="stylesheet" href="{config.connect_css}">', "utf-8"))
+    serv.wfile.write(bytes('</head>', "utf-8"))
+    serv.wfile.write(bytes("<body>", "utf-8"))
+    serv.wfile.write(bytes(tpage.getHTMLcode(page), "utf-8"))
+    serv.wfile.write(bytes("</body></html>", "utf-8"))
         
 
 if __name__ == "__main__":        
