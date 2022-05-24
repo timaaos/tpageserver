@@ -1,0 +1,3 @@
+TITLE=Main page;
+TEXT1=The default page of tpage webserver;
+RANDCHOOSE1=try to go to /info!,try to go to /docs!;

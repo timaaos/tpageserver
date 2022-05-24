@@ -1,23 +1,24 @@
 import random as r
+version = "0.2"
 
 def getHTMLcode(prog):
     htmlCode = ""
     for key,value in prog.items():
         value = value.replace("\\n","<br>")
-        if key == "title":
+        if "TITLE" in key:
             htmlCode += "<h1>"
             htmlCode += value
             htmlCode += "</h1>"
             continue
-        if key.endswith("Image"):
+        if "IMAGE" in key:
             htmlCode += f"<img src='{value}' width=300>"
             continue
-        if key.endswith("Text"):
+        if "TEXT" in key:
             htmlCode += "<p>"
             htmlCode += value
             htmlCode += "</p>"
             continue
-        if key.endswith("RandC"):
+        if "RANDCHOOSE" in key:
             values = value.split(",")
             htmlCode += "<p>"
             if key+"Name" in prog:
@@ -25,7 +26,7 @@ def getHTMLcode(prog):
             htmlCode += r.choice(values)
             htmlCode += "</p>"
             continue
-        if key.endswith("RandRange"):
+        if "RANDRANGE" in key:
             values = value.split(",")
             htmlCode += "<p>"
             if key+"Name" in prog:

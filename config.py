@@ -1,2 +1,4 @@
 connect_css = "/style.css"
-main_page = "./pages/example.tpage"
+connect_css_location = "./pages/style.css"
+main_page = "./pages/main.tpage"
+not_found = "./pages/notfound.tpage"
