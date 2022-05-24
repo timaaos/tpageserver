@@ -21,11 +21,11 @@ class MyServer(BaseHTTPRequestHandler):
             file.close()
             self.wfile.write(bytes(page, "utf-8"))
             return
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.send_header("charset", "utf-8")
-        self.end_headers()
         if(self.path == "/info"):
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.send_header("charset", "utf-8")
+            self.end_headers()
             self.wfile.write(bytes('<html><head><title>INFO</title></head>', "utf-8"))
             self.wfile.write(bytes("<body>", "utf-8"))
             self.wfile.write(bytes("<p>This is tpage webserver.</p>", "utf-8"))
@@ -34,6 +34,10 @@ class MyServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes(f"<p>main page location: {config.main_page}</p>", "utf-8"))
             self.wfile.write(bytes("</body></html>", "utf-8"))
         elif(self.path == "/docs"):
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.send_header("charset", "utf-8")
+            self.end_headers()
             self.wfile.write(bytes('<html><head><title>DOCS</title></head>', "utf-8"))
             self.wfile.write(bytes("<body>", "utf-8"))
             self.wfile.write(bytes(f"<p>The docs for tpage {tpage.version}</p>", "utf-8"))
@@ -49,12 +53,28 @@ class MyServer(BaseHTTPRequestHandler):
         else:
             if(self.path[1:].endswith(".tpage")):
                 if(not os.path.isfile('./pages/'+self.path[1:])):
+                    self.send_response(404)
+                    self.send_header("Content-type", "text/html")
+                    self.send_header("charset", "utf-8")
+                    self.end_headers()
                     openpage(self,config.not_found)
                     return
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.send_header("charset", "utf-8")
+                self.end_headers()
                 openpage(self,'./pages/'+self.path[1:])
             elif(self.path == "" or self.path == "/"):
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.send_header("charset", "utf-8")
+                self.end_headers()
                 openpage(self,config.main_page)
             else:
+                self.send_response(404)
+                self.send_header("Content-type", "text/html")
+                self.send_header("charset", "utf-8")
+                self.end_headers()
                 openpage(self,config.not_found)
 def openpage(serv,name):
     file = open(name,mode='r',encoding="utf-8")
