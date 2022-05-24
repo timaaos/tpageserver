@@ -54,6 +54,8 @@ class MyServer(BaseHTTPRequestHandler):
                 openpage(self,'./pages/'+self.path[1:])
             elif(self.path == "" or self.path == "/"):
                 openpage(self,config.main_page)
+            else:
+                openpage(self,config.not_found)
 def openpage(serv,name):
     file = open(name,mode='r',encoding="utf-8")
     page = tpage.parse(file.read())
