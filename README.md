@@ -1,2 +1,2 @@
 # tpageserver
-docs: https://whybrawl.ru/tpage/
+the docs are in /docs
